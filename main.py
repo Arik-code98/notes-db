@@ -39,7 +39,11 @@ def create_note(note:Note):
     db.commit()
     db.refresh(note_store)
     db.close()
-    return note_store
+    return {
+        "id":note_store.id,
+        "title":note_store.title,
+        "content":note_store.content
+    }
 
 @app.get("/notes")
 def show_notes():
@@ -62,7 +66,24 @@ def find_note(note_id:int):
     db=SessionLocal()
     note = db.query(Notedb).filter(Notedb.id == note_id).first()
     if note is None:
+        db.close()
         raise HTTPException(status_code=404, detail="Note not found")
+    result={"id":note.id,
+            "title":note.title,
+            "content":note.content}
+    db.close()
+    return result
+
+@app.put("/notes/{note_id}")
+def update_note(note_id:int,note_data:Note):
+    db=SessionLocal()
+    note=db.query(Notedb).filter(Notedb.id==note_id).first()
+    if note is None:
+        db.close()
+        raise HTTPException(status_code=404, detail="Note not found")
+    note.title=note_data.title
+    note.content=note_data.content
+    db.commit()
     result={"id":note.id,
             "title":note.title,
             "content":note.content}
@@ -74,6 +95,7 @@ def delete_note(note_id:int):
     db=SessionLocal()
     note = db.query(Notedb).filter(Notedb.id == note_id).first()
     if note is None:
+        db.close()
         raise HTTPException(status_code=404, detail="Note not found")
     deleted_note={"id":note.id,
                   "title":note.title,
