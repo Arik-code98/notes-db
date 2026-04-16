@@ -5,7 +5,14 @@ This API allows users to create, retrieve, and delete notes stored in a database
 
 ---
 
+## 🚀 Features
 
+- Create a new note
+- Retrieve all notes
+- Retrieve a specific note by ID
+- Delete a note
+- SQLite database integration with SQLAlchemy
+- Automatic interactive API documentation with FastAPI
 
 ---
 
