@@ -27,14 +27,7 @@ This API allows users to create, retrieve, and delete notes stored in a database
 
 ---
 
-## 📂 Project Structure
 
-```
-.
-├── main.py
-├── notes.db
-└── README.md
-```
 
 ---
 
